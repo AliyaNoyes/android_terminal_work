@@ -25,5 +25,13 @@ public class LoadActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        mloadButton=(Button)findViewById(R.id.loadbutton);
+        mloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(LoadActivity.this,AddProjectActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

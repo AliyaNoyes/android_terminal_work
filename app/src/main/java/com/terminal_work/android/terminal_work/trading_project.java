@@ -1,22 +1,15 @@
 package com.terminal_work.android.terminal_work;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class trading_project {
+public class trading_project implements Serializable {
 
-    private final int INCOMING=1;
-    private final int OUTGOING=-1;
-    private final int CRASH=0;
-    private final int CREDIT=1;
     private String name;
-    private int type;
-    private int amount;
+    private int type;//1--incoming,-1--outgoing
+    private int amount;//1--credit,0--crash
     private Calendar time;
     private int mode;
-
-    public int getINCOMING() {
-        return INCOMING;
-    }
 
     public String getName() {
         return name;
