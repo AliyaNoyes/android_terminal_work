@@ -1,6 +1,6 @@
 package com.terminal_work.android.terminal_work;
 
-import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 public class AddProjectActivity extends AppCompatActivity {
 
@@ -28,7 +30,9 @@ public class AddProjectActivity extends AppCompatActivity {
     private RadioButton radio_crash;
     private RadioButton radio_credit;
     private Button sure_add_button;
+    private Button project_button;
     private trading_project mProject;
+    private Calendar time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,11 @@ public class AddProjectActivity extends AppCompatActivity {
         sure_add_button=(Button)findViewById(R.id.sure_add);
         radio_type=(RadioGroup)findViewById(R.id.radio_type);
         radio_mode_pay=(RadioGroup)findViewById(R.id.radio_mode_of_payment);
+        project_button=(Button)findViewById(R.id.button_project_time);
         mProject=new trading_project();
+
+        time =Calendar.getInstance();
+        project_button.setText(""+time.get(Calendar.HOUR_OF_DAY)+":"+time.get(Calendar.MINUTE));
 
         radio_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -68,6 +76,13 @@ public class AddProjectActivity extends AppCompatActivity {
             }
         });
 
+        project_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timedialog(v);
+            }
+        });
+
         sure_add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,10 +93,27 @@ public class AddProjectActivity extends AppCompatActivity {
                         mProject.setAmount(Integer.parseInt(str));
                     }
                 }
+                mProject.setTime(time);
                 Intent intent=new Intent(AddProjectActivity.this,DailyBillActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putSerializable("s",mProject);
+                bundle.putSerializable("trading_project",mProject);
+                intent.putExtra("trading_project",bundle);
+                //后续版本改成startActivityForResult!!!!
+                startActivity(intent);
             }
         });
+    }
+
+    public void timedialog(View v){
+        TimePickerDialog timepicker=new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                time.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                time.set(Calendar.MINUTE,minute);
+                project_button.setText(""+time.get(Calendar.HOUR_OF_DAY)+":"+time.get(Calendar.MINUTE));
+            }
+        },time.get(Calendar.HOUR_OF_DAY),time.get(Calendar.MINUTE),true);
+        timepicker.setTitle("选择你要设定的时间");
+        timepicker.show();
     }
 }
