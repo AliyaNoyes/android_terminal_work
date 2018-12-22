@@ -30,26 +30,33 @@ public class RegisterActivity extends AppCompatActivity {
         mregisterButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext= getApplicationContext().getApplicationContext();
-                mUserService=new UserService(mContext);
+                mContext = getApplicationContext().getApplicationContext();
+                mUserService = new UserService(mContext);
                 mUserService.build();
-                User mUser=new User();
-                String name=musernameEditText.getText().toString();
-                String password=mpasswordEditText.getText().toString();
+                User mUser = new User();
+                String name = musernameEditText.getText().toString();
+                String password = mpasswordEditText.getText().toString();
                 mUser.setUsername(name);
                 mUser.setPassword(password);
-                if(mUserService.CheckIsDataAlreadyInDBorNot(name)){
-                    Toast.makeText(RegisterActivity.this,"该用户名已被注册，请重新输入",Toast.LENGTH_SHORT).show();
-                }else {
-                    if(mUserService.register(mUser)) {
-                        Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                if (name.equals("") || password.equals("")) {
+                    Toast.makeText(RegisterActivity.this, "请输入账号或密码", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (name.trim().equals("") || password.trim().equals("")) {
+                        Toast.makeText(RegisterActivity.this, "账户或密码不能全为空格", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (mUserService.CheckIsDataAlreadyInDBorNot(name)) {
+                            Toast.makeText(RegisterActivity.this, "该用户名已被注册，请重新输入", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (mUserService.register(mUser)) {
+                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                            }
+                            Intent intent = new Intent(RegisterActivity.this, LoadActivity.class);
+                            intent.putExtra("username", name);
+                            intent.putExtra("pw", password);
+                            startActivity(intent);
+                        }
                     }
-                    Intent intent=new Intent(RegisterActivity.this,LoadActivity.class);
-                    intent.putExtra("username",name);
-                    intent.putExtra("pw",password);
-                    startActivity(intent);
                 }
-
             }
         });
     }

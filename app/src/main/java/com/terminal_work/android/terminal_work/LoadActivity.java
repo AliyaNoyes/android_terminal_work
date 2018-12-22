@@ -39,16 +39,25 @@ public class LoadActivity extends AppCompatActivity {
         mloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext= getApplicationContext().getApplicationContext();
-                mUserService=new UserService(mContext);
-                String name=usename.getText().toString();
-                String pw=password.getText().toString();
-                if(mUserService.login(name,pw)){
-                    Toast.makeText(LoadActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(LoadActivity.this,AddProjectActivity.class);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(LoadActivity.this, "账户名或密码不正确", Toast.LENGTH_SHORT).show();
+                mContext = getApplicationContext().getApplicationContext();
+                mUserService = new UserService(mContext);
+                String name = usename.getText().toString();
+                String pw = password.getText().toString();
+                if (name.equals("") || pw.equals("")) {
+                    Toast.makeText(LoadActivity.this, "请输入账户或密码", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (mUserService.login(name, pw)) {
+                        Toast.makeText(LoadActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoadActivity.this, AddProjectActivity.class);
+                        startActivity(intent);
+                    } else {
+                        if (mUserService.CheckIsDataAlreadyInDBorNot(name)) {
+                            Toast.makeText(LoadActivity.this, "密码不正确", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoadActivity.this, "用户不存在", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
         });
