@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <Button
-        android:id="@+id/button_data_day"
+        android:id="@+id/button_date_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
@@ -13,4 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
+    <Button
+        android:id="@+id/button_date_sure_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确认添加至总账单列表"/>
 </LinearLayout>

@@ -19,7 +19,7 @@ public class DailyBillAdapter extends RecyclerView.Adapter<DailyBillAdapter.Dail
 
     @Override
     public DailyBillHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.daily_bill_item,viewGroup,false);
+        View view=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.daily_bill_item,null,false);
         DailyBillAdapter.DailyBillHolder holder=new DailyBillHolder(view);
         return holder;
     }

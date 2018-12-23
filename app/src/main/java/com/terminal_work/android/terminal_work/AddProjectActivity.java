@@ -94,12 +94,12 @@ public class AddProjectActivity extends AppCompatActivity {
                     }
                 }
                 mProject.setTime(time);
-                Intent intent=new Intent(AddProjectActivity.this,DailyBillActivity.class);
+                Intent intent=new Intent();
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("trading_project",mProject);
-                intent.putExtra("trading_project",bundle);
-                //后续版本改成startActivityForResult!!!!
-                startActivity(intent);
+                intent.putExtras(bundle);
+                setResult(1,intent);
+                finish();
             }
         });
     }

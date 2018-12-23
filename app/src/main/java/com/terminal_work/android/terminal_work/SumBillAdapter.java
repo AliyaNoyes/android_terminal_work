@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.zip.Inflater;
 
 public class SumBillAdapter extends RecyclerView.Adapter<SumBillAdapter.SumBillHolder>{
@@ -19,14 +20,17 @@ public class SumBillAdapter extends RecyclerView.Adapter<SumBillAdapter.SumBillH
 
     @Override
     public SumBillHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.sum_bill_item,viewGroup,false);
+        View view=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.sum_bill_item,null,false);
         SumBillAdapter.SumBillHolder holder=new SumBillHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull SumBillHolder sumBillHolder, int i) {
-        sumBillHolder.mTextView.setText(mBillLab.getDailyBills().get(i).getDate()+"  "+mBillLab.getDailyBills().get(i).getSumAmount());
+        sumBillHolder.mTextView.setText(mBillLab.getDailyBills().get(i).getDate().get(Calendar.YEAR)
+                +"年"+mBillLab.getDailyBills().get(i).getDate().get(Calendar.MONTH)
+                +"月"+mBillLab.getDailyBills().get(i).getDate().get(Calendar.DAY_OF_MONTH)
+                +"日  账单记录为："+mBillLab.getDailyBills().get(i).getSumAmount()+"元");
     }
 
     @Override

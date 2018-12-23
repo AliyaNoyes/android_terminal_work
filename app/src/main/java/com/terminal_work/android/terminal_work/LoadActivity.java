@@ -49,8 +49,8 @@ public class LoadActivity extends AppCompatActivity {
 
                     if (mUserService.login(name, pw)) {
                         Toast.makeText(LoadActivity.this, "登陆成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoadActivity.this, AddProjectActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent(LoadActivity.this, SumBillActivity.class);
+                        startActivityForResult(intent,1);
                     } else {
                         if (mUserService.CheckIsDataAlreadyInDBorNot(name)) {
                             Toast.makeText(LoadActivity.this, "密码不正确", Toast.LENGTH_SHORT).show();

@@ -1,10 +1,11 @@
 package com.terminal_work.android.terminal_work;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class daily_bill {
+public class daily_bill implements Serializable {
 
     private Calendar date;
     private List<trading_project> bill;

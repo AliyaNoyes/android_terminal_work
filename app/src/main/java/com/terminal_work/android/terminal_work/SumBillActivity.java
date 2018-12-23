@@ -1,5 +1,7 @@
 package com.terminal_work.android.terminal_work;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -7,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import java.util.List;
 
@@ -29,5 +32,50 @@ public class SumBillActivity extends AppCompatActivity {
         mAdapter=new SumBillAdapter(mBillLab);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.add_item,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if(item.getItemId()==R.id.add_item){
+            Intent intent=new Intent();
+            intent.setClass(SumBillActivity.this,DailyBillActivity.class);
+            startActivityForResult(intent,0);
+        }
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode==1){
+            Bundle bundle=data.getExtras();
+            daily_bill db=(daily_bill) bundle.getSerializable("daily_bill");
+            mBillLab.getDailyBills().add(db);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //没调用
+    private void updateUI(){
+        if(mAdapter==null){
+            mAdapter=new SumBillAdapter(mBillLab);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+        else{
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }
