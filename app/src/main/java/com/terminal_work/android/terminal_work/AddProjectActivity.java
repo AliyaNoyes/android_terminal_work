@@ -13,12 +13,13 @@ import android.widget.RadioGroup;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 public class AddProjectActivity extends AppCompatActivity {
 
     private final int INCOMING=1;
     private final int OUTGOING=-1;
-    private final int CRASH=0;
+    private final int CRASH=-1;
     private final int CREDIT=1;
 
     private EditText edit_name;
@@ -39,6 +40,16 @@ public class AddProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_project);
 
+        Intent intent=getIntent();
+        trading_project tp=(trading_project) intent.getSerializableExtra("tp");
+        if(tp==null){
+            mProject=new trading_project();
+            mProject.setTime(Calendar.getInstance());
+        }
+        else{
+            mProject=tp;
+        }
+
         edit_name=(EditText)findViewById(R.id.edit_name);
         edit_amount=(EditText)findViewById(R.id.edit_amount);
         radio_incoming=(RadioButton)findViewById(R.id.radio_incoming);
@@ -49,18 +60,36 @@ public class AddProjectActivity extends AppCompatActivity {
         radio_type=(RadioGroup)findViewById(R.id.radio_type);
         radio_mode_pay=(RadioGroup)findViewById(R.id.radio_mode_of_payment);
         project_button=(Button)findViewById(R.id.button_project_time);
-        mProject=new trading_project();
 
-        time =Calendar.getInstance();
+        Log.d("7777777777"," "+mProject.getName()+mProject.getAmount()+" "+mProject.getType()+" "+mProject.getMode()+" "+mProject.getTime());
+
+        time =mProject.getTime();
+        String name_str=mProject.getName();
+        String amount_str=mProject.getAmount()+"";
+        edit_name.setText(name_str);
+        edit_amount.setText(amount_str);
         project_button.setText(""+time.get(Calendar.HOUR_OF_DAY)+":"+time.get(Calendar.MINUTE));
+        if(mProject.getType()==1)
+            radio_type.check(radio_incoming.getId());
+        else if(mProject.getType()==-1)
+            radio_type.check(radio_outgoing.getId());
+        else
+            radio_type.clearCheck();
+        if(mProject.getMode()==1)
+            radio_mode_pay.check(radio_credit.getId());
+        else if(mProject.getMode()==-1)
+            radio_mode_pay.check(radio_crash.getId());
+        else
+            radio_mode_pay.clearCheck();
 
         radio_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int id=group.getCheckedRadioButtonId();
-                if(radio_incoming.getId()==id)
+                if(radio_incoming.getId()==id) {
                     mProject.setType(INCOMING);
-                if(radio_outgoing.getId()==id)
+                }
+                else if(radio_outgoing.getId()==id)
                     mProject.setType(OUTGOING);
             }
         });
@@ -70,9 +99,9 @@ public class AddProjectActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int id=group.getCheckedRadioButtonId();
                 if(radio_crash.getId()==id)
-                    mProject.setType(CRASH);
+                    mProject.setMode(CRASH);
                 if(radio_credit.getId()==id)
-                    mProject.setType(CREDIT);
+                    mProject.setMode(CREDIT);
             }
         });
 

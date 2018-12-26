@@ -36,7 +36,7 @@ public class DailyBillActivity extends AppCompatActivity {
 
         mRecyclerView=(RecyclerView)findViewById(R.id.daily_recycle_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mAdapter=new DailyBillAdapter(mDaily_bill);
+        mAdapter=new DailyBillAdapter(mDaily_bill,DailyBillActivity.this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
@@ -75,9 +75,22 @@ public class DailyBillActivity extends AppCompatActivity {
         if(resultCode==1){
             Bundle bundle=data.getExtras();
             trading_project project=(trading_project) bundle.getSerializable("trading_project");
-            mDaily_bill.getBill().add(project);
+            int flag=isInBills(project);
+            if(flag!=-1)
+                mDaily_bill.getBills().set(flag,project);
+            else
+                mDaily_bill.getBills().add(project);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+   public int isInBills(trading_project tp){
+       for(int i=0;i<mDaily_bill.getBills().size();i++){
+           if(mDaily_bill.getBills().get(i).getId().equals(tp.getId())){
+               return i;
+          }
+      }
+       return -1;
     }
 
     @Override
@@ -95,13 +108,17 @@ public class DailyBillActivity extends AppCompatActivity {
             intent.setClass(DailyBillActivity.this,AddProjectActivity.class);
             startActivityForResult(intent,0);
         }
+        if(item.getItemId()==R.id.search_item){
+            Intent intent=new Intent();
+            intent.setClass(DailyBillActivity.this,StatisticsActivity.class);
+            startActivityForResult(intent,0);
+        }
         return true;
     }
 
-//没调用
     private void updateUI(){
         if(mAdapter==null){
-            mAdapter=new DailyBillAdapter(mDaily_bill);
+            mAdapter=new DailyBillAdapter(mDaily_bill,DailyBillActivity.this);
             mRecyclerView.setAdapter(mAdapter);
         }
         else{

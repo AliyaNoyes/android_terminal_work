@@ -4,16 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 public class daily_bill implements Serializable {
 
     private Calendar date;
-    private List<trading_project> bill;
+    private List<trading_project> bills;
     private int sumAmount;
 
     public daily_bill(Calendar d){
         date=d;
-        bill=new ArrayList<>();
+        bills =new ArrayList<>();
     }
 
     public Calendar getDate() {
@@ -24,23 +25,31 @@ public class daily_bill implements Serializable {
         this.date = date;
     }
 
-    public List<trading_project> getBill() {
-        return bill;
+    public List<trading_project> getBills() {
+        return bills;
     }
 
-    public void setBill(List<trading_project> bill) {
-        this.bill = bill;
+    public void setBills(List<trading_project> bills) {
+        this.bills = bills;
     }
 
     public int getSumAmount() {
         sumAmount=0;
-        for(int i=0;i<bill.size();i++) {
-            if(bill.get(i).getType()==1){
-                sumAmount=sumAmount+bill.get(i).getAmount();
+        for(int i = 0; i< bills.size(); i++) {
+            if(bills.get(i).getType()==1){
+                sumAmount=sumAmount+ bills.get(i).getAmount();
             }
             else
-                sumAmount=sumAmount-bill.get(i).getAmount();
+                sumAmount=sumAmount- bills.get(i).getAmount();
         }
         return sumAmount;
+    }
+
+    public trading_project getProject(UUID id){
+        for(int i=0;i<bills.size();i++){
+            if (bills.get(i).getId()==id)
+                return bills.get(i);
+        }
+        return null;
     }
 }

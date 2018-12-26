@@ -2,15 +2,25 @@ package com.terminal_work.android.terminal_work;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class trading_project implements Serializable {
 
     //分配UUID
+    private UUID id;
     private String name;
     private int type;//1--incoming,-1--outgoing
-    private int amount;//1--credit,0--crash
+    private int amount;//1--credit,-1--crash
     private Calendar time;
     private int mode;
+
+    public trading_project(){
+        id =UUID.randomUUID();
+    }
+
+    public UUID getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

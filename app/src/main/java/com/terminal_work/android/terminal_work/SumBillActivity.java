@@ -55,6 +55,11 @@ public class SumBillActivity extends AppCompatActivity {
             intent.setClass(SumBillActivity.this,DailyBillActivity.class);
             startActivityForResult(intent,0);
         }
+        if(item.getItemId()==R.id.search_item){
+            Intent intent=new Intent();
+            intent.setClass(SumBillActivity.this,StatisticsActivity.class);
+            startActivityForResult(intent,0);
+        }
         return true;
     }
 
@@ -68,7 +73,6 @@ public class SumBillActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    //没调用
     private void updateUI(){
         if(mAdapter==null){
             mAdapter=new SumBillAdapter(mBillLab);

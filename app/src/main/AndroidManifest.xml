@@ -10,15 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".LoadActivity">
+
+        </activity>
+        <activity android:name=".AddProjectActivity" />
+        <activity android:name=".DailyBillActivity" />
+        <activity android:name=".SumBillActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddProjectActivity" />
-        <activity android:name=".DailyBillActivity" />
-        <activity android:name=".SumBillActivity" />
         <activity android:name=".StatisticsActivity" />
         <activity android:name=".RegisterActivity"></activity>
     </application>
