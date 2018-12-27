@@ -32,7 +32,7 @@ public class LoadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(LoadActivity.this,RegisterActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
             }
         });
         mloadButton=(Button)findViewById(R.id.loadbutton);

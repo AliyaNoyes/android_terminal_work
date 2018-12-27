@@ -53,7 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
                             Intent intent = new Intent(RegisterActivity.this, LoadActivity.class);
                             intent.putExtra("username", name);
                             intent.putExtra("pw", password);
-                            startActivity(intent);
+                            setResult(1,intent);
+                            finish();
                         }
                     }
                 }

@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class DailyBillActivity extends AppCompatActivity {
 
@@ -30,9 +31,15 @@ public class DailyBillActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_bill);
-        //初始化
-        date=Calendar.getInstance();
-        mDaily_bill=new daily_bill(date);
+        sum_bill_lab sbl=sum_bill_lab.get(DailyBillActivity.this);
+        Intent intent=getIntent();
+        date=(Calendar) intent.getSerializableExtra("daily_bill_date");
+        if(date==null) {
+            date = Calendar.getInstance();
+            mDaily_bill=new daily_bill(date);
+        }
+        else
+            mDaily_bill=sbl.getDailyBill(date);
 
         mRecyclerView=(RecyclerView)findViewById(R.id.daily_recycle_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
@@ -49,7 +56,6 @@ public class DailyBillActivity extends AppCompatActivity {
                 datedialog(v);
             }
         });
-
         date_sure_add_button=(Button)findViewById(R.id.button_date_sure_add);
         date_sure_add_button.setOnClickListener(new View.OnClickListener() {
             @Override

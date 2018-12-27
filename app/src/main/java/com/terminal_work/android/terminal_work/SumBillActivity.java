@@ -29,7 +29,7 @@ public class SumBillActivity extends AppCompatActivity {
 
         mRecyclerView=(RecyclerView)findViewById(R.id.sum_recycle_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mAdapter=new SumBillAdapter(mBillLab);
+        mAdapter=new SumBillAdapter(mBillLab,SumBillActivity.this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -68,14 +68,26 @@ public class SumBillActivity extends AppCompatActivity {
         if(resultCode==1){
             Bundle bundle=data.getExtras();
             daily_bill db=(daily_bill) bundle.getSerializable("daily_bill");
-            mBillLab.getDailyBills().add(db);
+            int flag=isInLab(db);
+            if(flag!=-1)
+                mBillLab.getDailyBills().set(flag,db);
+            else
+                mBillLab.getDailyBills().add(db);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public int isInLab(daily_bill db){
+        for(int i=0;i<mBillLab.getDailyBills().size();i++){
+            if(mBillLab.getDailyBills().get(i).getDate().equals(db.getDate()))
+                return i;
+        }
+        return -1;
+    }
+
     private void updateUI(){
         if(mAdapter==null){
-            mAdapter=new SumBillAdapter(mBillLab);
+            mAdapter=new SumBillAdapter(mBillLab,SumBillActivity.this);
             mRecyclerView.setAdapter(mAdapter);
         }
         else{

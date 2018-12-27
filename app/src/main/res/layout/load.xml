@@ -44,6 +44,7 @@
             android:id="@+id/edit_password1"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:background="@android:drawable/alert_light_frame"
             android:gravity="center"
             />

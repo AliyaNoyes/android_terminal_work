@@ -47,7 +47,6 @@ public class DailyBillAdapter extends RecyclerView.Adapter<DailyBillAdapter.Dail
             mode="现金";
         else
             mode="信用卡";
-        Log.d("777777777",type_int+"   "+type);
         dailyBillHolder.mTextView.setText(
                 ""+mDaily_bill.getBills().get(position).getTime().get(Calendar.HOUR_OF_DAY)
                 +":" +mDaily_bill.getBills().get(position).getTime().get(Calendar.MINUTE)
