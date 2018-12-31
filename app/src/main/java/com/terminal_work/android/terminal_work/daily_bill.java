@@ -10,7 +10,7 @@ public class daily_bill implements Serializable {
 
     private Calendar date;
     private List<trading_project> bills;
-    private int sumAmount;
+    private double sumAmount;
 
     public daily_bill(Calendar d){
         date=d;
@@ -35,7 +35,7 @@ public class daily_bill implements Serializable {
         this.bills = bills;
     }
 
-    public int getSumAmount() {
+    public double getSumAmount() {
         sumAmount=0;
         for(int i = 0; i< bills.size(); i++) {
             if(bills.get(i).getType()==1){
@@ -53,5 +53,22 @@ public class daily_bill implements Serializable {
                 return bills.get(i);
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==null){
+            return false;
+        }
+        else{
+            if(obj instanceof daily_bill){
+                daily_bill db=(daily_bill)obj;
+                if((date.get(Calendar.YEAR)==(db.getDate().get(Calendar.YEAR)))&&
+                        (date.get(Calendar.MONTH)==(db.getDate().get(Calendar.MONTH)))&&
+                        (date.get(Calendar.DAY_OF_MONTH)==(db.getDate().get(Calendar.DAY_OF_MONTH))))
+                    return true;
+            }
+        }
+        return false;
     }
 }

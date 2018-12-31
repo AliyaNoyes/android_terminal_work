@@ -10,7 +10,7 @@ public class trading_project implements Serializable {
     private UUID id;
     private String name;
     private int type;//1--incoming,-1--outgoing
-    private int amount;
+    private double amount;
     private Calendar time;
     private int mode;//1--credit,-1--crash
 
@@ -41,11 +41,11 @@ public class trading_project implements Serializable {
         this.type = type;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

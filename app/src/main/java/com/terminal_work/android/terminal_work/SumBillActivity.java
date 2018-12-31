@@ -79,7 +79,7 @@ public class SumBillActivity extends AppCompatActivity {
 
     public int isInLab(daily_bill db){
         for(int i=0;i<mBillLab.getDailyBills().size();i++){
-            if(mBillLab.getDailyBills().get(i).getDate().equals(db.getDate()))
+            if(mBillLab.getDailyBills().get(i).equals(db))
                 return i;
         }
         return -1;

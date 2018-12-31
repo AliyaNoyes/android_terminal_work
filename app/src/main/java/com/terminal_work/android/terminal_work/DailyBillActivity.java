@@ -91,13 +91,13 @@ public class DailyBillActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-   public int isInBills(trading_project tp){
-       for(int i=0;i<mDaily_bill.getBills().size();i++){
-           if(mDaily_bill.getBills().get(i).getId().equals(tp.getId())){
-               return i;
-          }
-      }
-       return -1;
+    public int isInBills(trading_project tp){
+        for(int i=0;i<mDaily_bill.getBills().size();i++){
+            if(mDaily_bill.getBills().get(i).getId().equals(tp.getId())){
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override

@@ -103,7 +103,7 @@ public class StatisticsActivity extends AppCompatActivity {
                             } while (cursor.moveToNext());
                             cursor.close();
                         }
-                        mTextView.setText(year + "年" + month + "月" + "总账单为：" + Integer.toString(count) + "元");
+                        mTextView.setText(year + "年" + Integer.toString(Integer.parseInt(month) + 1) + "月" + "总账单为：" + Integer.toString(count) + "元");
                     }
                 }
             }
@@ -137,7 +137,7 @@ public class StatisticsActivity extends AppCompatActivity {
                             } while (cursor.moveToNext());
                             cursor.close();
                         }
-                        mTextView.setText(year + "年" + month + "月" + day + "日" + "总账单为：" + Integer.toString(count) + "元");
+                        mTextView.setText(year + "年" + Integer.toString(Integer.parseInt(month) + 1)+ "月" + day + "日" + "总账单为：" + Integer.toString(count) + "元");
                     }
                 }
             }

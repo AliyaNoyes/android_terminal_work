@@ -1,6 +1,7 @@
 package com.terminal_work.android.terminal_work;
 
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -41,6 +42,7 @@ public class AddProjectActivity extends AppCompatActivity {
     private Date mDate;
     private Context mContext;
     private SQLiteDatabase mDatabase;
+    private sum_bill_lab mBillLab;
     /*private int year;
     private int month;
     private int day;*/
@@ -50,11 +52,14 @@ public class AddProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_project);
 
+        mBillLab=sum_bill_lab.get(this);
+
         Intent intent=getIntent();
         time=Calendar.getInstance();
         int year=intent.getIntExtra("year",2018);
         int month=intent.getIntExtra("month",1);
         int day=intent.getIntExtra("day",1);
+        final Boolean flag=intent.getBooleanExtra("flag",false);
         time.set(year,month,day);
         /*int year=Integer.parseInt(intent.getStringExtra("year"));
         month=Integer.parseInt(intent.getStringExtra("month"));
@@ -80,13 +85,12 @@ public class AddProjectActivity extends AppCompatActivity {
         radio_mode_pay=(RadioGroup)findViewById(R.id.radio_mode_of_payment);
         project_button=(Button)findViewById(R.id.button_project_time);
 
-        Log.d("7777777777"," "+mProject.getName()+mProject.getAmount()+" "+mProject.getType()+" "+mProject.getMode()+" "+mProject.getTime());
-
         time =mProject.getTime();
         String name_str=mProject.getName();
         String amount_str=mProject.getAmount()+"";
         edit_name.setText(name_str);
-        edit_amount.setText(amount_str);
+        if(mProject.getAmount()!=0)
+            edit_amount.setText(amount_str);
         project_button.setText(""+time.get(Calendar.HOUR_OF_DAY)+":"+time.get(Calendar.MINUTE));
         if(mProject.getType()==1)
             radio_type.check(radio_incoming.getId());
@@ -138,21 +142,20 @@ public class AddProjectActivity extends AppCompatActivity {
                 if(edit_amount!=null){
                     String str=edit_amount.getText().toString();
                     if(str!=null&&str.length()>0){
-                        mProject.setAmount(Integer.parseInt(str));
+                        mProject.setAmount(Double.parseDouble(str));
                     }
                 }
-                /*String a= Integer.toString(time.get(Calendar.MONTH));
-                String date=time.get(Calendar.YEAR)+"-"+(time.get(Calendar.MONTH)+1)+"-"+time.get(Calendar.DAY_OF_MONTH)+" "+mProject.getTime().get(Calendar.HOUR_OF_DAY)+":"+mProject.getTime().get(Calendar.MINUTE);
-                Toast.makeText(AddProjectActivity.this,date,Toast.LENGTH_SHORT).show();*/
-                /*String username=LoadActivity.Username;
-                Toast.makeText(AddProjectActivity.this,username,Toast.LENGTH_SHORT).show();*/
                 mProject.setTime(time);
                 Intent intent=new Intent();
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("trading_project",mProject);
                 intent.putExtras(bundle);
                 setResult(1,intent);
-                insertbill();
+                if(flag){
+                    mBillLab.updatebill(mProject);
+                }else {
+                    mBillLab.insertbill(mProject);
+                }
                 finish();
             }
         });
@@ -171,15 +174,5 @@ public class AddProjectActivity extends AppCompatActivity {
         timepicker.show();
     }
 
-    public void insertbill(){
-        mContext = getApplicationContext().getApplicationContext();
-        mDatabase=new BillBaseHelper(mContext).getWritableDatabase();
-        String username=LoadActivity.Username;
-        String sql1="insert into bill(username,uuidString,name,amount,mode,type,year,month,day,hour,minute) values(?,?,?,?,?,?,?,?,?,?,?)";
-        Object obj[]={username,mProject.getId().toString(), mProject.getName(), mProject.getAmount(),mProject.getMode(),mProject.getType(),time.get(Calendar.YEAR),time.get(Calendar.MONTH),time.get(Calendar.DAY_OF_MONTH),time.get(Calendar.HOUR_OF_DAY),time.get(Calendar.MINUTE)};
-        mDatabase.execSQL(sql1,obj);
-        /*mDatabase.close();*/
-    }
-
-
 }
+
