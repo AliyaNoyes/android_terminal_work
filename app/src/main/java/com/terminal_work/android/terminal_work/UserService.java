@@ -14,36 +14,41 @@ public class UserService {
     }
 
     public boolean login(String username,String password){
-        SQLiteDatabase sdb=mBillBaseHelper.getReadableDatabase();
+        mDatabase=mBillBaseHelper.getReadableDatabase();
         String sql="select * from user where username=? and password=?";
-        Cursor cursor=sdb.rawQuery(sql, new String[]{username,password});
+        Cursor cursor=mDatabase.rawQuery(sql, new String[]{username,password});
         if(cursor.moveToFirst()==true){
             cursor.close();
+            mDatabase.close();
             return true;
         }
+        mDatabase.close();
         return false;
     }
 
     public boolean register(User user){
-        SQLiteDatabase sdb=mBillBaseHelper.getReadableDatabase();
+        mDatabase=mBillBaseHelper.getReadableDatabase();
         String sql="insert into user(username,password) values(?,?)";
         Object obj[]={user.getUsername(),user.getPassword()};
-        sdb.execSQL(sql, obj);
-        sdb.close();
+        mDatabase.execSQL(sql, obj);
+        mDatabase.close();
         return true;
     }
     public boolean CheckIsDataAlreadyInDBorNot(String username){
-        SQLiteDatabase sdb=mBillBaseHelper.getWritableDatabase();
+        mDatabase=mBillBaseHelper.getWritableDatabase();
         String Query = "Select * from user where username =?";
-        Cursor cursor = sdb.rawQuery(Query,new String[] { username });
+        Cursor cursor = mDatabase.rawQuery(Query,new String[] { username });
         if (cursor.getCount()>0){
             cursor.close();
+            mDatabase.close();
             return  true;
         }
         cursor.close();
+        mDatabase.close();
         return false;
     }
     public void build(){
         mDatabase=mBillBaseHelper.getWritableDatabase();
+        mDatabase.close();
     }
 }

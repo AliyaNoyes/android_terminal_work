@@ -10,12 +10,15 @@ public class trading_project implements Serializable {
     private UUID id;
     private String name;
     private int type;//1--incoming,-1--outgoing
-    private int amount;//1--credit,-1--crash
+    private int amount;
     private Calendar time;
-    private int mode;
+    private int mode;//1--credit,-1--crash
 
     public trading_project(){
         id =UUID.randomUUID();
+    }
+    public trading_project(UUID id){
+        this.id=id;
     }
 
     public UUID getId() {

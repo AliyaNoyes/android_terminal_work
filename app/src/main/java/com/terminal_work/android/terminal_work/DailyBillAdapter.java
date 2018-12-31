@@ -48,10 +48,10 @@ public class DailyBillAdapter extends RecyclerView.Adapter<DailyBillAdapter.Dail
         else
             mode="信用卡";
         dailyBillHolder.mTextView.setText(
-                ""+mDaily_bill.getBills().get(position).getTime().get(Calendar.HOUR_OF_DAY)
-                +":" +mDaily_bill.getBills().get(position).getTime().get(Calendar.MINUTE)
-                +"  "+mDaily_bill.getBills().get(position).getName()
-                +"  " +type +"： "+mDaily_bill.getBills().get(position).getAmount()+"元   "+"支付方式为： "+mode);
+                "  "+mDaily_bill.getBills().get(position).getName()
+                +"  " +type +"： "+mDaily_bill.getBills().get(position).getAmount()+"元   "+"支付方式为： "+mode+" "+"时间"+mDaily_bill.getBills().get(position).getTime().get(Calendar.HOUR_OF_DAY)
+                        +":" +mDaily_bill.getBills().get(position).getTime().get(Calendar.MINUTE)
+                        );
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
@@ -112,6 +113,9 @@ public class DailyBillActivity extends AppCompatActivity {
         if(item.getItemId()==R.id.add_item){
             Intent intent=new Intent();
             intent.setClass(DailyBillActivity.this,AddProjectActivity.class);
+            intent.putExtra("year",date.get(Calendar.YEAR));
+            intent.putExtra("month",date.get(Calendar.MONTH));
+            intent.putExtra("day",date.get(Calendar.DAY_OF_MONTH));
             startActivityForResult(intent,0);
         }
         if(item.getItemId()==R.id.search_item){

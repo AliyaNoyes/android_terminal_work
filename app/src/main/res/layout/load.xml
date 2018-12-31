@@ -24,7 +24,6 @@
             android:id="@+id/edit_uesrname1"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/alert_light_frame"
             android:gravity="center"
             />
     </LinearLayout>
@@ -45,7 +44,6 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:background="@android:drawable/alert_light_frame"
             android:gravity="center"
             />
     </LinearLayout>
@@ -58,14 +56,12 @@
             android:layout_marginLeft="65dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
             android:text="注册"/>
         <Button
             android:id="@+id/loadbutton"
             android:layout_marginLeft="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
             android:text="登录"/>
     </LinearLayout>
 

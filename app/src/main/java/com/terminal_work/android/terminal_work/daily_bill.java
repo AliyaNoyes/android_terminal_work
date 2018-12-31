@@ -16,7 +16,9 @@ public class daily_bill implements Serializable {
         date=d;
         bills =new ArrayList<>();
     }
-
+    public daily_bill(){
+        bills=new ArrayList<>();
+    }
     public Calendar getDate() {
         return date;
     }

@@ -1,7 +1,9 @@
 package com.terminal_work.android.terminal_work;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +13,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class AddProjectActivity extends AppCompatActivity {
@@ -34,6 +38,12 @@ public class AddProjectActivity extends AppCompatActivity {
     private Button project_button;
     private trading_project mProject;
     private Calendar time;
+    private Date mDate;
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
+    /*private int year;
+    private int month;
+    private int day;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +51,19 @@ public class AddProjectActivity extends AppCompatActivity {
         setContentView(R.layout.add_project);
 
         Intent intent=getIntent();
+        time=Calendar.getInstance();
+        int year=intent.getIntExtra("year",2018);
+        int month=intent.getIntExtra("month",1);
+        int day=intent.getIntExtra("day",1);
+        time.set(year,month,day);
+        /*int year=Integer.parseInt(intent.getStringExtra("year"));
+        month=Integer.parseInt(intent.getStringExtra("month"));
+        int day=Integer.parseInt(intent.getStringExtra("day"));
+        time.set(year,month,day);*/
         trading_project tp=(trading_project) intent.getSerializableExtra("tp");
         if(tp==null){
             mProject=new trading_project();
-            mProject.setTime(Calendar.getInstance());
+            mProject.setTime(time);
         }
         else{
             mProject=tp;
@@ -122,12 +141,18 @@ public class AddProjectActivity extends AppCompatActivity {
                         mProject.setAmount(Integer.parseInt(str));
                     }
                 }
+                /*String a= Integer.toString(time.get(Calendar.MONTH));
+                String date=time.get(Calendar.YEAR)+"-"+(time.get(Calendar.MONTH)+1)+"-"+time.get(Calendar.DAY_OF_MONTH)+" "+mProject.getTime().get(Calendar.HOUR_OF_DAY)+":"+mProject.getTime().get(Calendar.MINUTE);
+                Toast.makeText(AddProjectActivity.this,date,Toast.LENGTH_SHORT).show();*/
+                /*String username=LoadActivity.Username;
+                Toast.makeText(AddProjectActivity.this,username,Toast.LENGTH_SHORT).show();*/
                 mProject.setTime(time);
                 Intent intent=new Intent();
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("trading_project",mProject);
                 intent.putExtras(bundle);
                 setResult(1,intent);
+                insertbill();
                 finish();
             }
         });
@@ -145,4 +170,16 @@ public class AddProjectActivity extends AppCompatActivity {
         timepicker.setTitle("选择你要设定的时间");
         timepicker.show();
     }
+
+    public void insertbill(){
+        mContext = getApplicationContext().getApplicationContext();
+        mDatabase=new BillBaseHelper(mContext).getWritableDatabase();
+        String username=LoadActivity.Username;
+        String sql1="insert into bill(username,uuidString,name,amount,mode,type,year,month,day,hour,minute) values(?,?,?,?,?,?,?,?,?,?,?)";
+        Object obj[]={username,mProject.getId().toString(), mProject.getName(), mProject.getAmount(),mProject.getMode(),mProject.getType(),time.get(Calendar.YEAR),time.get(Calendar.MONTH),time.get(Calendar.DAY_OF_MONTH),time.get(Calendar.HOUR_OF_DAY),time.get(Calendar.MINUTE)};
+        mDatabase.execSQL(sql1,obj);
+        /*mDatabase.close();*/
+    }
+
+
 }

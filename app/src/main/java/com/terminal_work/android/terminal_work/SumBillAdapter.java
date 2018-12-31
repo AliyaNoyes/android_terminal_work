@@ -37,7 +37,7 @@ public class SumBillAdapter extends RecyclerView.Adapter<SumBillAdapter.SumBillH
         sumBillHolder.bind(db);
 
         sumBillHolder.mTextView.setText(mBillLab.getDailyBills().get(i).getDate().get(Calendar.YEAR)
-                +"年"+mBillLab.getDailyBills().get(i).getDate().get(Calendar.MONTH)
+                +"年"+(mBillLab.getDailyBills().get(i).getDate().get(Calendar.MONTH)+1)
                 +"月"+mBillLab.getDailyBills().get(i).getDate().get(Calendar.DAY_OF_MONTH)
                 +"日"+"\n"+"账单记录为："+mBillLab.getDailyBills().get(i).getSumAmount()+"元");
     }
